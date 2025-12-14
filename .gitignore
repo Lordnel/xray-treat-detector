@@ -9,8 +9,6 @@ __pycache__/
 runs/
 runs_sixray/
 
-*.pt
-
 # Environnement
 .env
 .venv/
