@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Ultralytics / YOLO runs
+runs/
+runs_sixray/
+
+*.pt
+
+# Environnement
+.env
+.venv/
