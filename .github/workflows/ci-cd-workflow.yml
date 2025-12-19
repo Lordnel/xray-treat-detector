@@ -50,5 +50,7 @@ jobs:
             cd ~/xray-treat-detector/
             git fetch --all
             git reset --hard origin/main
+            docker system prune -af
+            docker volume prune -f
             docker-compose build
             docker-compose up -d
