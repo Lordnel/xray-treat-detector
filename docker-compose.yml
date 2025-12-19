@@ -1,0 +1,8 @@
+services:
+  xray-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:7865"
+    restart: always
