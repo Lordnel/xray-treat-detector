@@ -22,16 +22,13 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Free disk space
         run: |
-          pip install -r requirements.txt
-
-      - name: Import check
-        run: |
-          python - << 'EOF'
-          import gradio, ultralytics, cv2
-          print("Imports OK")
-          EOF
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/lib/android
+          sudo apt-get clean
+          docker system prune -af
 
       - name: Docker build test
         run: docker compose build
