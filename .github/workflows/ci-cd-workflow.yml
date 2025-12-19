@@ -34,7 +34,7 @@ jobs:
           EOF
 
       - name: Docker build test
-        run: docker build -t xray-ci .
+        run: docker compose build
 
   cd:
     name: 🚀 CD - Deploy EC2
