@@ -6,7 +6,7 @@ Projet tutoré : mise en place d’un mini pipeline **DevOps–MLOps** pour la d
 Le projet combine :
 
 - **MLOps** : entraînement, évaluation et sauvegarde d’un modèle YOLOv11m fine-tuné sur le dataset **SIXray** (version Roboflow),
-- **DevOps** : interface web **Gradio**, conteneurisation Docker, pipeline CI GitHub Actions, déploiement automatisé sur **AWS EC2**.
+- **DevOps** : interface web **Gradio**, conteneurisation Docker, pipeline CI/CD GitHub Actions, déploiement automatisé sur **AWS EC2**.
 
 ---
 
