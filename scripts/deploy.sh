@@ -7,10 +7,6 @@ PROJECT_NAME="xray-treat-detector"
 
 echo "==> Deploy in: $APP_DIR"
 
-echo "==> Fetch latest main"
-git fetch --all
-git reset --hard origin/main
-
 echo "==> Stop old containers"
 docker-compose down --remove-orphans || true
 

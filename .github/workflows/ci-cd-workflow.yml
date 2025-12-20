@@ -48,5 +48,7 @@ jobs:
           script: |
             set -euo pipefail
             cd ~/xray-treat-detector
-            bash ~/xray-treat-detector/scripts/deploy.sh
+            git fetch --all
+            git reset --hard origin/main
+            bash ./scripts/deploy.sh
 
