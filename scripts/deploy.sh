@@ -7,8 +7,6 @@ PROJECT_NAME="xray-treat-detector"
 
 echo "==> Deploy in: $APP_DIR"
 
-cd "$APP_DIR"
-
 echo "==> Fetch latest main"
 git fetch --all
 git reset --hard origin/main
@@ -16,7 +14,6 @@ git reset --hard origin/main
 echo "==> Stop old containers"
 docker-compose down --remove-orphans || true
 
-# (utile contre KeyError: ContainerConfig avec docker-compose v1)
 echo "==> Remove old container (if exists)"
 docker rm -f "${PROJECT_NAME}_${SERVICE_NAME}_1" 2>/dev/null || true
 

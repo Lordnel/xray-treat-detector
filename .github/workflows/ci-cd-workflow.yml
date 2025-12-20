@@ -46,5 +46,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -euo pipefail
+            cd ~/xray-treat-detector
             bash ~/xray-treat-detector/scripts/deploy.sh
 
