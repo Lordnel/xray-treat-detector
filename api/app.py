@@ -6,7 +6,7 @@ import cv2
 import pandas as pd
 import math
 
-model = YOLO("./yolo11_sixray_best.pt")
+model = YOLO("./models/yolo11_sixray_best.pt")
 
 CLASS_COLORS = {
     "gun": (0, 0, 255), #rouge
