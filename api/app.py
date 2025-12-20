@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 import cv2
 import pandas as pd
-import math
+import time
 
 model = YOLO("./models/yolo11_sixray_best.pt")
 
@@ -16,7 +16,14 @@ CLASS_COLORS = {
     "scissors": (0, 255, 255), #jaune
 }
 
-import time
+french_classes = {
+    "gun": "pistolet",
+    "knife": "couteau",
+    "wrench": "clé",
+    "pliers": "pince",
+    "scissors": "ciseaux",
+}
+
 
 def make_beep(sr=22050, duration=2, freq=880):
     t = np.linspace(0, duration, int(sr * duration), endpoint=False)
@@ -25,7 +32,6 @@ def make_beep(sr=22050, duration=2, freq=880):
 
     wave = 0.2 * np.sin(2 * np.pi * freq * t + phase)
     return (sr, wave.astype(np.float32))
-
 
 
 HIGH_THREAT_CONF = 0.7
@@ -46,7 +52,6 @@ def detect_weapons(image: Image.Image, conf_threshold: float):
         annotated = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     else:
         count = len(boxes)
-        # calc max conf
         max_conf = float(boxes.conf.max().item()) if hasattr(boxes, "conf") else max(float(b.conf[0]) for b in boxes)
 
         for idx, box in enumerate(boxes, start=1):
@@ -68,7 +73,7 @@ def detect_weapons(image: Image.Image, conf_threshold: float):
 
             detections_info.append({
                 "id": idx,
-                "classe": cls_name,
+                "classe": french_classes.get(cls_name.lower(), cls_name),
                 "confiance": round(conf, 4)
             })
 
@@ -117,34 +122,75 @@ def detect_weapons(image: Image.Image, conf_threshold: float):
     return annotated_pil, df, status_html, audio
 
 
-conf_slider = gr.Slider(
-    minimum=0.1,
-    maximum=1.0,
-    value=0.5,
-    step=0.05,
-    label="Seuil de confiance minimum"
-)
-
 css = """
 #beep_audio {
   display: none !important;
 }
 """
 
+with gr.Blocks(css=css) as demo:
 
-demo = gr.Interface(
-    fn=detect_weapons,
-    inputs=[gr.Image(type="pil", label="Image rayon X à analyser"), conf_slider],
-    outputs=[
-        gr.Image(type="pil", label="Image annotée (bboxes + IDs)"),
-        gr.Dataframe(headers=["id", "classe", "confiance"], label="Détails des objets détectés"),
-        gr.HTML(label="Voyant"),
-        gr.Audio(label="Bip (si menace)", autoplay=True, elem_id="beep_audio")
-    ],
-    title="Plateforme de Sûreté Aéroportuaire par Inspection Rayons X",
-    description="Upload une image rayon X : le modèle dessine les bounding boxes avec un ID par objet et affiche la liste détaillée des détections.",
-    flagging_mode="never",
-    css=css
+    gr.Markdown("# Plateforme de Sûreté Aéroportuaire Rayons X par Vision Artificielle")
+    gr.Markdown("### Importez des images rayon X ou utilisez des exemples fournis : le modèle détecte les armes et objets dangereux")
+
+    with gr.Row():
+        with gr.Column(scale=1):
+            image_input = gr.Image(
+                type="pil",
+                label="Image rayon X à analyser"
+            )
+
+            conf_slider = gr.Slider(
+                minimum=0.1,
+                maximum=1.0,
+                value=0.5,
+                step=0.05,
+                label="Seuil de confiance minimum"
+            )
+
+            with gr.Accordion("Images d’exemple", open=False):
+                gr.Examples(
+                    examples = [
+                        ["samples_images/1.jpg", 0.75],
+                        ["samples_images/2.jpg", 0.5],
+                        ["samples_images/3.jpg", 0.6],
+                        ["samples_images/4.jpg", 0.78],
+                    ],
+                    inputs=[image_input, conf_slider],
+                )
+
+            btn = gr.Button("Lancer la détection", variant="primary")
+
+        with gr.Column(scale=1):
+            img_out = gr.Image(
+                label="Image annotée (bboxes + IDs)"
+            )
+
+            df_out = gr.Dataframe(
+                headers=["id", "classe", "confiance"],
+                label="Détails des objets détectés"
+            )
+
+            status_out = gr.HTML(label="Voyant")
+            audio_out = gr.Audio(autoplay=True, elem_id="beep_audio")
+
+    btn.click(
+        fn=detect_weapons,
+        inputs=[image_input, conf_slider],
+        outputs=[img_out, df_out, status_out, audio_out]
+    )
+
+    gr.Markdown(
+    """
+    <div style="text-align:center; margin-top:30px; color:#777; font-size:12px;">
+        Projet tutoré DevOps-MlOps 2025-2026 5A IIIA - HESTIM<br>
+        © 2025 — Plateforme de Sûreté Aéroportuaire Rayons X par Vision Artificielle<br>
+        Développée par <b>Prunel AKPLOGAN</b> & <b>Kenneth ADJETE</b><br>
+        Encadrée par <b>Pr. KHIAT Azzedine</b>
+    </div>
+    """,
+    elem_id="footer"
 )
+
 
 demo.launch(server_name="0.0.0.0", server_port=7865)
