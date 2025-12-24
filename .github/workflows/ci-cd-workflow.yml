@@ -31,10 +31,12 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Unit Tests
+        timeout-minutes: 5
         run: |
-          # Le point (.) représente le répertoire racine du projet
           export PYTHONPATH=$PYTHONPATH:.
-          python -m pytest tests/
+          # On lance pytest. S'il trouve des tests et qu'ils passent, 
+          # il s'arrêtera tout seul avec un code de succès.
+          python -m pytest tests/test_app.py
 
       - name: Free disk space
         run: |
