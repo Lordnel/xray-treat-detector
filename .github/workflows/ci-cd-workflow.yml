@@ -32,8 +32,9 @@ jobs:
 
       - name: Run Unit Tests
         run: |
-          # Lance tous les tests trouvés dans le projet
-          pytest
+          # Le point (.) représente le répertoire racine du projet
+          export PYTHONPATH=$PYTHONPATH:.
+          python -m pytest tests/
 
       - name: Free disk space
         run: |
