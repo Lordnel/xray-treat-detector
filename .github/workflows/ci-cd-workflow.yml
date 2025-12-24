@@ -34,7 +34,7 @@ jobs:
         timeout-minutes: 5
         run: |
           export PYTHONPATH=$PYTHONPATH:.
-          # On lance pytest. S'il trouve des tests et qu'ils passent, 
+          # On lance pytest. S'il trouve des tests, 
           # il s'arrêtera tout seul avec un code de succès.
           python -m pytest tests/test_app.py
 
