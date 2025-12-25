@@ -192,5 +192,6 @@ with gr.Blocks(css=css) as demo:
     elem_id="footer"
 )
 
-
-demo.launch(server_name="0.0.0.0", server_port=7865)
+# Le serveur ne se lance que si on exécute le fichier directement.
+if __name__ == "__main__":
+    demo.launch(server_name="0.0.0.0", server_port=7865)
