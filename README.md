@@ -112,6 +112,19 @@ Ainsi, le pipeline complète la boucle **CI/CD** de manière entièrement automa
 **push/merge sur GitHub → tests → build → déploiement sur EC2**.
 
 ---
+## 🧪 Suivi des workflows CI/CD (GitHub Actions)
+
+Les résultats d’exécution du pipeline **CI/CD** sont consultables directement dans l’onglet **Actions** du dépôt GitHub.
+
+Cet onglet permet :
+- de visualiser l’historique des workflows,
+- de vérifier le statut des jobs (succès / échec),
+- d’accéder aux logs détaillés de chaque étape :
+  - installation des dépendances,
+  - exécution des tests,
+  - build de l’image Docker,
+  - déploiement sur AWS EC2.
+---
 
 ## 4️⃣ Structure du projet
 
