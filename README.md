@@ -1,7 +1,7 @@
-# Détection d'objets dangereux dans les bagages à rayons X avec YOLOv11m – Pipeline DevOps / MLOps
+# Détection d'objets dangereux dans les bagages à rayons X avec YOLOv11m – Pipeline DevOps / MLOps – Vision par ordinateur
 ![Interface Gradio pour l'inference du model](./docs/inference.png)
 
-Projet tutoré : mise en place d’un mini pipeline **DevOps–MLOps** pour la détection d’objets dangereux (armes, couteaux, outils…) dans des images de bagages scannés aux rayons X.
+Projet tutoré visant la mise en place d’un **pipeline DevOps–MLOps complet** pour la détection d’objets dangereux (armes, couteaux, outils) dans des images de bagages scannés aux rayons X.
 
 Le projet combine :
 
@@ -21,16 +21,17 @@ Aujourd’hui, l’analyse des images rayons X repose largement sur des opérate
 
 **Objectif du projet :**
 
-> Entraîner un modèle de vision par ordinateur (YOLOv11m) pour détecter automatiquement des objets dangereux dans des images rayons X, puis l’exposer via une interfce web gradio conteneurisée et déployée dans le cloud (AWS EC2), avec un pipeline CI/CD.
+> Entraîner un modèle de vision par ordinateur (YOLOv11m) pour détecter automatiquement des objets dangereux dans des images rayons X, puis l’exposer via une interfce web gradio conteneurisée et déployée dans le cloud (AWS EC2), via un pipeline CI/CD.
 
 ---
 
 ## 2️⃣ Dataset
 
 - **Nom** : SIXray (version Roboflow)
-- **Type** : images rayons X de bagages avec annotations bounding boxes
-- **Tâche** : détection d’objets (armes et outils)
-- **Format** : YOLO (train / valid / test + `data.yaml`)
+- **Type** : images rayons X de bagages
+- **Annotations** : bounding boxes
+- **Tâche** : détection d’objets
+- **Format** : YOLO (`train / valid / test + data.yaml`)
 
 Téléchargement via Roboflow dans le notebook :
 
@@ -58,7 +59,7 @@ Le pipeline global se décompose en plusieurs étapes.
 
 1. Préparation des données (Roboflow → format YOLO).
 2. Analyse exploratoire (distribution des classes, exemples d’images, complexité des données).
-3. Entraînement de YOLOv11m (fine-tuning) sur AWS (SageMaker / Notebook).
+3. Entraînement de YOLOv11m (fine-tuning) sur Google Colab.
 4. Visualisation des courbes d’apprentissage (loss, mAP50, mAP50-95).
 5. Évaluation du modèle (mAP, précision, rappel, matrice de confusion).
 6. Sauvegarde du meilleur modèle : `models/yolo11_sixray_best.pt`.
@@ -185,8 +186,34 @@ Interface : http://localhost:8000
 
 ---
 
+## 🔗 Accès à l’application déployée (AWS EC2)
 
-## Résumé
+L’application est déployée sur une instance **AWS EC2** accessible à l’adresse :
+
+```text
+http://34.233.76.37:8000
+```
+
+⚠️ **Remarque importante**  
+L’instance EC2 **n’est pas active en continu** afin de limiter les coûts cloud.
+
+> Pour une démonstration en ligne, merci de **contacter les auteurs du projet** afin que l’instance soit lancée manuellement.
+
+---
+
+## 📄 Documentation & ressources expérimentales
+
+Le dossier **`docs/`** contient :
+- le **rapport complet du projet tutoré**,
+- les **courbes de métriques** (loss, mAP, précision, rappel),
+- les figures et visualisations utilisées dans l’analyse,
+- des captures de l’interface Gradio.
+
+Ces éléments assurent la **traçabilité des résultats** et la **reproductibilité expérimentale**.
+
+---
+
+## Conclusion
 
 Ce projet illustre un cas d’usage complet de **vision par ordinateur** appliquée à la **sécurité aéroportuaire**, depuis :
 
